@@ -1,7 +1,12 @@
 export interface ISession {
   _id: number;
+  index: number;
+  isStretched: boolean;
+  sessionsTotalCount: number;
   commands: Array<ICommand>;
   onRunCommand: (command: ICommand) => Promise<IBackendResponse>;
+  onAddNewSession: () => void;
+  onRemoveSession: (_id: number) => void;
 }
 
 export interface ICommand {

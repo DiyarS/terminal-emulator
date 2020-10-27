@@ -1,11 +1,50 @@
 import styled from "styled-components";
 
+function calcColumnsTotal(itemsTotal) {
+  if (itemsTotal === 1) return 1;
+  if (itemsTotal <= 4) return 2;
+
+  return 3;
+}
+
+export const TerminalSessionsWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(
+    ${(props) => calcColumnsTotal(props.itemsCount)},
+    1fr
+  );
+  grid-template-rows: repeat(${(props) => (props.itemsCount < 3 ? 1 : 2)}, 1fr);
+`;
+
 export const TerminalSessionEntityWrapper = styled.section`
   width: 100%;
   height: 100%;
   background: #000;
   overflow-y: scroll;
+
+  &.stretched-vertically {
+    border: 1px solid green;
+    grid-row: 1/3;
+    grid-column: ${(props) => (props.sessionsCount < 4 ? 2 : 3)} / 3;
+  }
 `;
+
+export const TerminalSessionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const SessionHeaderTitle = styled.div`
+  font-weight: bold;
+  font-style: italic;
+  color: #ff6b00;
+  width: 100%;
+  border: 1px solid;
+`;
+
+export const CommandsWrapper = styled.div``;
 
 export const CommandWrapper = styled.div`
   position: relative;
