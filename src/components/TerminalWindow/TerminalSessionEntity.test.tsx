@@ -1,13 +1,14 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import TerminalSessionEntity from "./TerminalSessionEntity";
-import { generateNewCommand } from "../../containers/TerminalWindow/commandsReducer";
+import { generateNewCommand } from "../../containers/TerminalWindow/sessionsReducer";
 import { onRunCommand } from "../../containers/TerminalWindow/actions";
 
 function getProps() {
+  const session_id = Date.now();
   return {
-    _id: Date.now(),
-    commands: [generateNewCommand()],
+    _id: session_id,
+    commands: [generateNewCommand(session_id)],
     onRunCommand,
   };
 }

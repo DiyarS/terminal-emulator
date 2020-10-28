@@ -9,6 +9,8 @@ export interface ISession {
   onRemoveSession: (_id: number) => void;
 }
 
+export type ISessionEntity = Pick<ISession, "_id" | "commands">;
+
 export interface ICommand {
   _id: number;
   session_id: number | null;
