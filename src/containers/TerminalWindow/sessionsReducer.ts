@@ -1,30 +1,38 @@
 import { IBackendResponse, ICommand, ISession } from "../../interfaces";
 import * as types from "./actionTypes";
+import { uuid } from "../../utils/helpers";
 
-type IBaseSession = Pick<ISession, "_id" | "commands">;
+export type IBaseSession = Pick<ISession, "_id" | "commands">;
 
-export function generateNewCommand(session_id: number): ICommand {
+export function generateNewCommand(session_id: string): ICommand {
   return {
-    _id: Date.now(),
+    _id: uuid(),
     session_id,
     command: "",
   };
 }
 
 export function generateNewSession(): IBaseSession {
-  const session_id = Date.now();
+  const session_id = uuid();
   return {
     _id: session_id,
     commands: [generateNewCommand(session_id)],
   };
 }
 
-const defaultState = (): Array<IBaseSession> => [generateNewSession()];
+const defaultState = (): Array<IBaseSession> => {
+  const sessionsCount = localStorage.getItem("sessions_count");
+  const length =
+    typeof sessionsCount === "string" ? parseInt(sessionsCount) : 1;
+  const sessions = new Array(length).fill("");
+
+  return sessions.map(() => generateNewSession());
+};
 
 interface IAction {
   type: string;
   command?: ICommand;
-  session_id?: number;
+  session_id?: string;
   payload: IBackendResponse;
 }
 
@@ -34,7 +42,7 @@ export default (
 ) => {
   switch (action.type) {
     case types.ADD_NEW_SESSION:
-      return state.concat(defaultState());
+      return state.concat([generateNewSession()]);
     case types.REMOVE_SESSION:
       return state.filter((session) => session._id !== action.session_id);
 

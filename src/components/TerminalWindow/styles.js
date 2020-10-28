@@ -23,6 +23,7 @@ export const TerminalSessionEntityWrapper = styled.section`
   height: 100%;
   background: #000;
   overflow-y: scroll;
+  border: 1px solid;
 
   &.stretched-vertically {
     border: 1px solid green;

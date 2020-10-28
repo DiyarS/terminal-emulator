@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { HeaderBg } from "../styles/colors";
 
 export const Wrapper = styled.header`
-  border: 1px solid;
   background: ${HeaderBg};
 `;
 
