@@ -3,9 +3,10 @@ import { render } from "@testing-library/react";
 import TerminalSessionEntity from "./TerminalSessionEntity";
 import { generateNewCommand } from "../../containers/TerminalWindow/sessionsReducer";
 import { onRunCommand } from "../../containers/TerminalWindow/actions";
+import { uuid } from "../../utils/helpers";
 
 function getProps() {
-  const session_id = Date.now();
+  const session_id = uuid();
   return {
     _id: session_id,
     commands: [generateNewCommand(session_id)],
