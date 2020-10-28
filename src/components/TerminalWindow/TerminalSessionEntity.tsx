@@ -33,6 +33,7 @@ const TerminalSessionEntity: React.FC<ISession> = ({
           <Command
             key={comm._id}
             {...comm}
+            session_id={_id}
             inputDisabled={disabled}
             onExecuteCommand={onRunCommand}
           />

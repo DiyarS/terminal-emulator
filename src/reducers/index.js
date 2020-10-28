@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import commandsReducer from "../containers/TerminalWindow/commandsReducer";
+import sessionsReducer from "../containers/TerminalWindow/sessionsReducer";
 
 const rootReducer = combineReducers({
-  commands: commandsReducer,
+  sessions: sessionsReducer,
 });
 
 export default rootReducer;

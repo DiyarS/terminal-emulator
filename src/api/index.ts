@@ -1,18 +1,12 @@
 import { ICommand, IBackendResponse } from "../interfaces";
+import { getRequest, postRequest } from "./base";
 
-export const sendCommand = ({
+export const sendCommand = async ({
+  session_id,
   command,
 }: ICommand): Promise<IBackendResponse> => {
-  return new Promise((resolve) => {
-    console.log("Executing command: ", command);
-    const sampleResponse = {
-      status: 200,
-      result: `Command ${command} executed successfully`,
-    };
+  if (command === "history")
+    return await getRequest("commands-history", { session_id });
 
-    setTimeout(() => {
-      console.log("Finished command: ", command);
-      resolve(sampleResponse);
-    }, 3000);
-  });
+  return await postRequest("command", { session_id, command });
 };

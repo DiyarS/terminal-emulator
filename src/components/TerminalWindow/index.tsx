@@ -1,28 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../../containers/TerminalWindow/actions";
-import { ISession } from "../../interfaces";
+import { ISession, ISessionEntity } from "../../interfaces";
 import { TerminalSessionsWrapper } from "./styles";
 import TerminalSessionEntity from "./TerminalSessionEntity";
 
-type IProps = Pick<ISession, "commands" | "onRunCommand">;
+type IMethods = Pick<
+  ISession,
+  "onRunCommand" | "onAddNewSession" | "onRemoveSession"
+>;
 
-const defaultState = () => [{ _id: Date.now() }];
+interface IProps extends IMethods {
+  sessions: Array<ISessionEntity>;
+}
+
 const MAX_SESSSIONS_AMOUNT = 6;
 
 const TerminalWindow: React.FC<IProps> = (props) => {
-  const { commands, onRunCommand } = props;
-  const [sessions, setSessions] = useState(defaultState());
-
-  function onAddNewSession() {
-    const updatedSessions = sessions.concat(defaultState());
-    setSessions(updatedSessions);
-  }
-
-  function onRemoveSession(_id: number) {
-    const updatedSessions = sessions.filter((session) => session._id !== _id);
-    setSessions(updatedSessions);
-  }
+  const { sessions, onAddNewSession, onRemoveSession, onRunCommand } = props;
 
   const isMaxSessionsNumberReached = sessions.length === MAX_SESSSIONS_AMOUNT;
 
@@ -41,12 +36,12 @@ const TerminalWindow: React.FC<IProps> = (props) => {
             index={index + 1}
             isStretched={isStretched}
             sessionsTotalCount={sessions.length}
-            commands={commands}
+            commands={session.commands}
             onRunCommand={onRunCommand}
             onAddNewSession={
               isMaxSessionsNumberReached ? () => {} : onAddNewSession
             }
-            onRemoveSession={onRemoveSession}
+            onRemoveSession={sessions.length > 1 ? onRemoveSession : () => {}}
           />
         );
       })}
@@ -54,10 +49,10 @@ const TerminalWindow: React.FC<IProps> = (props) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({ commands: state.commands });
+const mapStateToProps = (state: any) => ({ sessions: state.sessions });
 const mapDispatchToProps = { ...actions };
 
-export default connect<{}, {}, IProps>(
+export default connect<{ sessions: Array<ISessionEntity> }, {}, IProps>(
   mapStateToProps,
   mapDispatchToProps
 )(TerminalWindow) as any;
